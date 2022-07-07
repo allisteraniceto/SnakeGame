@@ -11,7 +11,7 @@ Compiler: MS VS 2019
 using namespace std;
 
 bool gameOver;
-const int WIDTH = 20; //map dimensions
+const int WIDTH = 40; //map dimensions
 const int HEIGHT = 20;
 int x, y, fruitX, fruitY, score;
 int tailX[100], tailY[100];
@@ -89,8 +89,8 @@ void input() { // controls of the snake
 	}
 }
 void logic() {
-	int prevX=tailX[0];
-	int prevY = tailX[0];
+	int prevX = tailX[0];
+	int prevY = tailY[0];
 	int prev2X, prev2Y;
 	tailX[0] = x;
 	tailY[0] = y;
@@ -120,6 +120,10 @@ void logic() {
 	}
 	if (x > WIDTH || x < 0 || y > HEIGHT || y < 0)\
 		gameOver = true;
+	for (int i = 0; i < nTail; i++) {
+		if (tailX[i] == x && tailY[i] == y)
+			gameOver = true;
+	}
 	if (x == fruitX && y == fruitY) {
 		score += 10;
 		fruitX = rand() % WIDTH;
@@ -134,10 +138,10 @@ int main() {
 	while (!gameOver) {
 		draw();
 		if (dir == UP || dir == DOWN) { // to slow down the snake
-			Sleep(45);
+			Sleep(65);
 		}
 		if (dir == LEFT || dir == RIGHT) {
-			Sleep(35);
+			Sleep(55);
 		}
 		input();
 		logic();
