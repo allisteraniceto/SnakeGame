@@ -3,11 +3,18 @@ Programmer: Allister Aniceto
 Purpose: Snake Game
 Date Modified: 7/6/22
 Compiler: MS VS 2019
+
+HOW PROGRAM WILL RUN:
+-ask user for nickname 
+-prompt user to start game
+-display highscores at the end
 */
 
 #include <iostream>
 #include <conio.h> //console input/ouput library
 #include <Windows.h> // function library to use sleep() to slow down the snake
+#include <ctime>
+#include <cstdlib>
 using namespace std;
 
 bool gameOver;
@@ -44,7 +51,7 @@ void draw() { //prints walls of the game
 			if (i == y && j == x)
 				cout << "O";
 			else if (i == fruitY && j == fruitX)
-				cout << "F";
+				cout << "*";
 			else{
 				bool print = false;
 				for (int k = 0; k < nTail; k++) {
@@ -133,19 +140,25 @@ void logic() {
 }
 
 int main() {
-	setup();
-
-	while (!gameOver) {
-		draw();
-		if (dir == UP || dir == DOWN) { // to slow down the snake
-			Sleep(65);
+	srand(time(NULL));
+	char ans = 'y';
+	while (ans == 'y') {
+		gameOver = false;
+		setup();
+		while (!gameOver) {
+			draw();
+			if (dir == UP || dir == DOWN) { // to slow down the snake
+				Sleep(65);
+			}
+			if (dir == LEFT || dir == RIGHT) {
+				Sleep(55);
+			}
+			input();
+			logic();
+			//sleep(10); //slows game down (optional)
 		}
-		if (dir == LEFT || dir == RIGHT) {
-			Sleep(55);
-		}
-		input();
-		logic();
-		//sleep(10); //slows game down (optional)
+		cout << "Enter \"y\" to try again: ";
+		cin >> ans;
 	}
 	system("pause");
 	return 0;
